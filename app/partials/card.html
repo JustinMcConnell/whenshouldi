@@ -1,0 +1,33 @@
+          <div class="flip" ng-click="flip(card);">F</div>
+
+          <div class="side front" ng-hide="card.flipped">
+            <p class="title">{{card.title}}</p>
+            <p class="last">
+              <span>last time</span>
+              {{lastTime(card)}}
+            </p>
+            <p class="next">
+              <span>next time</span>
+              {{nextTime(card)}}
+            </p>
+            <p class="reset">
+              <button class="btn btn-primary" ng-click="cardDone(card)">reset</button>
+            </p>
+          </div>
+
+          <div class="side back" ng-show="card.flipped">
+            <p class="title_edit">
+              <input type="text" ng-model="card.title">
+            </p>
+
+            <div class="frequency">
+              <p>Every {{card.frequency}}</p>
+              <p><input type="number" ng-model="card.frequencyValue" ng-change="updateCardFrequency(card)"></p>
+              <div class="frequency_types clearfix" data-ng-init="types=['minute', 'hour', 'day', 'week', 'month', 'year']">
+                <button data-ng-repeat="type in types" 
+                        class="btn btn-default" 
+                        value="{{type}}" 
+                        ng-click="updateCardFrequency(card, type)">{{type}}</button>
+              </div>
+            </div>
+          </div>

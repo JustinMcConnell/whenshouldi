@@ -1,0 +1,209 @@
+/* app css stylesheet */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: all .33s;
+  -webkit-transition: all .33s;
+  transition: all .33s;
+}
+.animated {
+  -webkit-animation-duration: .33s;
+  animation-duration: .33s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;  
+}
+body {
+  background-color: #f0f0f0 !important;
+  font-family: sans-serif;
+}
+header {
+  background: #444;
+  color: #fff;
+  border-bottom: 1px solid #999;  
+  margin-bottom: 20px;
+}
+h1 {
+  margin-top: 14px;
+  font-family: Oswald, sans-serif;
+  font-weight: normal;
+}
+#add_card {
+  margin-top: 14px;
+  text-align: left;
+}
+@media (min-width: 768px) {
+  #add_card {
+    text-align: right;
+  }
+}
+.cards {
+  list-style-type: none;
+  padding-left: 0;
+}
+.card {
+  position: relative;
+  height: 300px;
+  margin-bottom: 20px;
+  -webkit-perspective: 600px;
+  -moz-perspective: 600px;
+  perspective: 600px;
+}
+.card .side {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.card .front {
+  -webkit-transform: rotateX(0deg) rotateY(0deg);
+  -moz-transform: rotateX(0deg) rotateY(0deg);
+  transform: rotateX(0deg) rotateY(0deg);
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.card.flipped .front {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.card .back {
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-179deg);
+  transform: rotateY(-179deg);
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;  
+}
+.card.flipped .back {
+  -webkit-transform: rotateX(0deg) rotateY(0deg);
+  -moz-transform: rotateX(0deg) rotateY(0deg);
+  transform: rotateX(0deg) rotateY(0deg);  
+}
+.card input {
+  font-size: inherit;
+  font-family: inherit;
+  width: 100%;
+}
+.card .flip {
+  position: absolute;
+  right: 0;
+  background: #ccc;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 24px;
+}
+.card .flip span {
+  padding: 8px;  
+}
+.card .flip span:hover {
+  -moz-transform: rotateZ(90deg);
+  -webkit-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+.card .last > span,
+.card .next > span {
+  display: block;
+  text-transform: uppercase;
+  font-size: 16px;
+  color: #999;
+  margin-bottom: 10px;
+}
+.card .title {
+  width: calc(100% - 39px);
+  height: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;  
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  background-color: #444;
+  color: #fff;
+  margin: 0;
+}
+.card .title:hover {
+
+}
+.card .title_edit {
+  padding: 3px;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+  width: calc(100% - 40px);
+}
+.card .next,
+.card .last {
+  height: 103px;
+  font-size: 24px;
+  text-align: center;  
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+}
+.card .reset {
+  height: 45px;
+  text-align: center;  
+  padding-top: 10px;
+  margin: 0;
+}
+.card .delete {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  text-align: center;
+}
+.card .frequency {
+  padding: 10px;
+}
+.card .frequency_value {
+  float: left;
+}
+.card .frequency_value input {
+  font-size: 80px;
+  line-height: 40px;
+  height: 158px;
+  width: 139px;
+  border-radius: 0;
+}
+.card .frequency_types button {
+  display: block;
+  width: 8em;
+  margin: 0;
+  padding: 3px 3px 3px 8px;
+  border-radius: 0;
+  text-align: left;
+}
+.card .frequency_types button:nth-child(1) {
+  border-bottom: 0;
+  border-left: 0;
+}
+.card .frequency_types button:nth-child(2),
+.card .frequency_types button:nth-child(3),
+.card .frequency_types button:nth-child(4),
+.card .frequency_types button:nth-child(5) {
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+.card .frequency_types button:nth-child(6) {
+  border-top: 0;
+  border-left: 0;
+}
+
+.side {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, .1),
+              1px 2px 2px rgba(0, 0, 0, .1);
+}
+.side.ng-hide {
+  opacity: 0;
+}

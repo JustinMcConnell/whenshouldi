@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" ng-app="wsiApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When Should I?</title>
+  <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../bower_components/animate.css/animate.min.css">
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app.css"/>
+</head>
+<body ng-controller="CardsCtrl">
+
+  <div class="container-fluid">
+    <header class="row">
+      <h1 class="col-sm-8">When Should I?</h1>
+
+      <p id='add_card' class="col-sm-4">
+        <button class="btn btn-primary btn-lg" ng-click="addCard()">Create New Card</button>
+      </p>
+    </header>
+
+    <div class="cards row">
+      <div ng-repeat="card in cards | orderBy:order" class="col-lg-3 col-md-4 col-sm-6 animated fadeInLeft" id="card_{{card.id}}">
+        <div ng-class="{'card': true, 'flipped': card.flipped}">
+          <div class="side front">
+            <div class="flip" ng-click="flipCard(card);">
+              <span class="glyphicon glyphicon-cog"></span>
+            </div>
+            <p class="title">{{card.title}}</p>
+            <p class="next">
+              <span>next time</span>
+              {{nextTime(card)}}
+            </p>
+            <p class="last">
+              <span>last time</span>
+              {{lastTime(card)}}
+            </p>
+            <p class="reset">
+              <button class="btn btn-primary" ng-click="cardDone(card)">reset</button>
+            </p>
+          </div>
+
+          <div class="side back">
+            <div class="flip" ng-click="flip(card);">
+              <span class="glyphicon glyphicon-cog"></span>
+            </div>
+            <p class="title_edit">
+              <input type="text" placeholder="Card title goes here." ng-model="card.title" class="form-control">
+            </p>
+
+            <div class="frequency">
+              <p>Perform Every</p>
+              <p class="frequency_value">
+                <input type="number" min="1" class="form-control" ng-model="card.frequencyValue" ng-change="updateCardFrequency(card)">
+              </p>
+              <div class="frequency_types clearfix" data-ng-init="types=['minute', 'hour', 'day', 'week', 'month', 'year']">
+                <button data-ng-repeat="type in types" 
+                        ng-class="{'btn':true, 'btn-default':true, 'active':card.frequencyType == type}" 
+                        value="{{type}}" 
+                        ng-click="updateCardFrequency(card, type)">{{type}}</button>
+              </div>
+            </div>
+
+            <div class="delete">
+              <button class="btn btn-danger" ng-click="deleteCard(card)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.js"></script>
+  <script src="../bower_components/angular-route/angular-route.js"></script>
+  <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+  <script src="../bower_components/momentjs/min/moment.min.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../bower_components/firebase/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+</body>
+</html>
