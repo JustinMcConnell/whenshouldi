@@ -37,7 +37,7 @@
               {{lastTime(card)}}
             </p>
             <p class="reset">
-              <button class="btn btn-primary" ng-click="cardDone(card)">reset</button>
+              <button class="btn btn-primary" ng-click="cardDone(card)">I Did It</button>
             </p>
           </div>
 
@@ -62,8 +62,9 @@
               </div>
             </div>
 
-            <div class="delete">
-              <button class="btn btn-danger" ng-click="deleteCard(card)">Delete</button>
+            <div class="back_buttons">
+              <button class="btn btn-primary" ng-click="flipCard(card)">OK</button>
+              <button class="btn btn-danger delete_button" ng-click="deleteCard(card)">Delete</button>
             </div>
           </div>
         </div>

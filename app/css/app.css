@@ -151,29 +151,34 @@ h1 {
   padding-top: 10px;
   margin: 0;
 }
-.card .delete {
+.card .back_buttons {
   position: absolute;
-  right: 0;
+  right: 10px;
   bottom: 10px;
-  left: 0;
-  text-align: center;
+  left: 10px;
+}
+.card .delete_button {
+  float: right;
 }
 .card .frequency {
   padding: 10px;
 }
-.card .frequency_value {
-  float: left;
+.card .frequency_value,
+.card .frequency_types {
+  display: inline-block;
+  width: 50%;
+  vertical-align: top;
 }
 .card .frequency_value input {
   font-size: 80px;
   line-height: 40px;
   height: 158px;
-  width: 139px;
+  width: 100%;
   border-radius: 0;
 }
 .card .frequency_types button {
   display: block;
-  width: 8em;
+  width: 100%;
   margin: 0;
   padding: 3px 3px 3px 8px;
   border-radius: 0;
