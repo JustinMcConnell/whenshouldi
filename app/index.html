@@ -16,7 +16,7 @@
       <h1 class="col-sm-8">When Should I?</h1>
 
       <p id='add_card' class="col-sm-4">
-        <button class="btn btn-primary btn-lg" ng-click="addCard()">Create New Card</button>
+        <button class="btn btn-primary btn-lg" ng-click="createCard()">Create New Card</button>
       </p>
     </header>
 
@@ -46,15 +46,14 @@
               <span class="glyphicon glyphicon-cog"></span>
             </div>
             <p class="title_edit">
-              <input type="text" placeholder="Card title goes here." ng-model="card.title" class="form-control">
+              <input type="text" placeholder="Card title goes here." ng-model="card.title" class="form-control" ng-blur="updateCard(card);">
             </p>
 
             <div class="frequency">
               <p>Perform Every</p>
               <p class="frequency_value">
                 <input type="number" min="1" class="form-control" ng-model="card.frequencyValue" ng-change="updateCardFrequency(card)">
-              </p>
-              <div class="frequency_types clearfix" data-ng-init="types=['minute', 'hour', 'day', 'week', 'month', 'year']">
+              </p><div class="frequency_types clearfix" data-ng-init="types=['minute', 'hour', 'day', 'week', 'month', 'year']">
                 <button data-ng-repeat="type in types" 
                         ng-class="{'btn':true, 'btn-default':true, 'active':card.frequencyType == type}" 
                         value="{{type}}" 
