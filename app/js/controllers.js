@@ -1,26 +1,12 @@
 'use strict';
 
 /* Controllers */
-wsiApp.controller('CardsCtrl', ['$scope', '$http', '$interval', '$timeout', '$firebase', function($scope, $http, $interval, $timeout, $firebase) {
-  $scope.firebase = $firebase(new Firebase("https://torid-fire-5877.firebaseIO.com/whenshouldi/cards"));
-  $scope.firebase.$bind($scope, "cards").then(function() {
-    var keys = $scope.cards.$getIndex();
-    keys.forEach(function(key) {
-      $scope.initCard($scope.cards[key]);
-    })
-  });
-
+wsiApp.controller('CardsCtrl', ['$scope', '$interval', '$timeout', 'CardsService', function($scope, $interval, $timeout, CardsService) {
+  $scope.cards = CardsService.getCards();
   $scope.order = "-id";
   $scope.animationDuration = 333;
 
-  $scope.initCard = function(card) {
-    $interval(function() {
-      $scope.nextTime(card);
-      $scope.lastTime(card);
-    }, 60000);
-  };
-
-  $scope.addCard = function() {
+  $scope.createCard = function() {
     var defaultCardData = {
       "title": "",
       "frequency": 60000,
@@ -30,26 +16,30 @@ wsiApp.controller('CardsCtrl', ['$scope', '$http', '$interval', '$timeout', '$fi
       "flipped": false
     };
 
-    // If there are no cards, then $scope.cards is empty and we add to $scope.firebase.
-    var obj = 0 && typeof $scope.cards === "object" ? $scope.cards : $scope.firebase;
-    obj.$add(defaultCardData).then(function(ref) {
-      var card = $scope.cards[ref.name()];
-      card.id = ref.name();
+    CardsService.createCard(defaultCardData, function(ref) {
       $timeout(function() {
+        var card = $scope.cards[ref.name()];
+        card.id = ref.name();
         $scope.flipCard(card);
+        $scope.updateCard(card);
       }, $scope.animationDuration);
     });
   };
 
+  $scope.updateCard = function(card) {
+    CardsService.updateCard(card);
+  }
+
   $scope.deleteCard = function(card) {
     $("#card_" + card.id).removeClass("fadeInLeft").addClass("fadeOutLeft");
     $timeout(function() {
-      $scope.cards.$remove(card.id);
+      CardsService.deleteCard(card);
     }, $scope.animationDuration);
   };
 
   $scope.flipCard = function(card) {
     card.flipped = !card.flipped;
+    $scope.updateCard(card);
   };
 
   $scope.lastTime = function(card) {
@@ -62,6 +52,7 @@ wsiApp.controller('CardsCtrl', ['$scope', '$http', '$interval', '$timeout', '$fi
 
   $scope.cardDone = function(card) {
     card.history.push(new Date());
+    $scope.updateCard(card);
     //$scope.nextTime(card);
     //$scope.lastTime(card);
   };
@@ -105,34 +96,37 @@ wsiApp.controller('CardsCtrl', ['$scope', '$http', '$interval', '$timeout', '$fi
   };
 
   $scope.updateCardFrequency = function(card, type) {
-    card.frequencyType = type;
-    var value = card.frequencyValue;
-
-    if (!value || value <= 0) {
-      return;
+    if (typeof type !== "undefined") {
+      card.frequencyType = type;
     }
     if (!card.frequencyType) {
       card.frequencyType = "minute";
     }
 
-    var total = value * 1000;
+    var value = card.frequencyValue;
+    if (!value || value <= 0) {
+      return;
+    }
+
+    var totalMilliseconds = value * 1000;
     if (card.frequencyType == "minute") {
-      total *= 60;
+      totalMilliseconds *= 60;
     } else if (card.frequencyType == "hour") {
-      total *= 60 * 60;
+      totalMilliseconds *= 60 * 60;
     } else if (card.frequencyType == "day") {
-      total *= 60 * 60 * 24;
+      totalMilliseconds *= 60 * 60 * 24;
     } else if (card.frequencyType == "week") {
-      total *= 60 * 60 * 24 * 7;
+      totalMilliseconds *= 60 * 60 * 24 * 7;
     } else if (card.frequencyType == "month") { // TODO: A month is not always 31 days.
-      total *= 60 * 60 * 24 * 31;
+      totalMilliseconds *= 60 * 60 * 24 * 31;
     } else if (card.frequencyType == "year") {
-      total *= 60 * 60 * 24 * 365.242;
+      totalMilliseconds *= 60 * 60 * 24 * 365.242;
     // frequency type not supported
     } else {
       return;
     }
 
-    card.frequency = total;
+    card.frequency = totalMilliseconds;
+    $scope.updateCard(card);
   };
 }]);
